@@ -4,7 +4,7 @@ const sequelize = require('./sequilize');
 class Label extends Model {}
 Label.init({
     githubId: {
-        type: DataTypes.NUMBER,
+        type: DataTypes.INTEGER,
         allowNull: false
     },
     name: {

@@ -8,13 +8,13 @@ function sleep(ms) {
     });
   }   
 
-module.exports = async function getAllContributors(issues_url) {
-    let pageNum = 100;
+module.exports = async function getAllContributors(contrib_url) {
+    let pageNum = 1;
     let responseLength;
     const allIssues = [];
     do{
         try{
-            const URL = `${issues_url.replace(/{.*}/,'')}?per_page=2&page=${pageNum}`
+            const URL = `${contrib_url.replace(/{.*}/,'')}?per_page=100&page=${pageNum}`
             const response = await axios.get(URL);
             allIssues.push(...response.data);
             responseLength = response.data.length;

@@ -3,13 +3,13 @@ const route = express.Router();
 const {deleteLib,getLibsInfo,saveNewLib, generateData} = require('../business/libStatistics');
 
 
-route.put('/:owner/:repo/:username', async function (req, res) {
-    const response = await saveNewLib(req.params.owner, req.params.repo, req.params.username);
+route.put('/:username/:owner/:repoName', async function (req, res) {
+    const response = await saveNewLib(req.params.owner, req.params.repoName, req.params.username);
     res.send(response);
 });
 
-route.delete('/:owner/:repo/:username', async function (req, res) {
-    const response = await deleteLib(req.params.owner, req.params.repo, req.params.username);
+route.delete('/:username/:owner/:repoName', async function (req, res) {
+    const response = await deleteLib(req.params.owner, req.params.repoName, req.params.username);
     res.send('response');
 });
 
@@ -18,7 +18,7 @@ route.get('/generateData', async function (req, res) {
     res.send(response);
 });
 
-route.get('/userLibs/:username', async function (req, res) {
+route.get('/:username/userLibs/', async function (req, res) {
     const response = await getLibsInfo(req.params.username);
     res.send(response);
 });

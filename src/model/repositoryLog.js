@@ -7,15 +7,15 @@ const Repository = require('./repository');
 class RepositoryLog extends Model {}
 RepositoryLog.init({
     stars: {
-        type: DataTypes.NUMBER,
+        type: DataTypes.INTEGER,
         allowNull: false
     },
     forks: {
-        type: DataTypes.NUMBER,
+        type: DataTypes.INTEGER,
         allowNull: false
     },
     contributors: {
-        type: DataTypes.NUMBER,
+        type: DataTypes.INTEGER,
     },
     cron:{
         type: DataTypes.BOOLEAN,
