@@ -32,3 +32,22 @@ Requests:
 ## Database
 <img src="diagrams/ER.png" alt="Database Diagram"/>
 To collet all the needed data the database is structured with theese for tables
+
+## API
+In this project we have the following APIs exposed:
+
+[GET] /getRepoInfo/:username/:owner/:repoName
+
+    Get information regarding the chosen repository
+
+[PUT] /libStatistics/:username/:owner/:repoName
+    
+    Set up the user relationship with the repository to start receiving statistics from this repository
+
+[DELETE] /libStatistics/:username/:owner/:repoName
+    
+    Destroy the user relationship with the repository to stop receiving statistics from this repository 
+
+[GET] /libStatistics/:username
+    
+    Get all subscribed repositories statistics
