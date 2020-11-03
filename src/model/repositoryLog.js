@@ -28,7 +28,7 @@ RepositoryLog.init({
 })();
 
 RepositoryLog.Issues = RepositoryLog.hasMany(Issue);
-RepositoryLog.User = RepositoryLog.hasOne(User);
+RepositoryLog.User = RepositoryLog.belongsTo(User);
 RepositoryLog.Repository = RepositoryLog.belongsTo(Repository);
 Repository.RepositoryLog = Repository.hasMany(RepositoryLog);
 

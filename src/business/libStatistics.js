@@ -44,9 +44,6 @@ async function getLibsInfo(username){
             include: [{
                 model: Repository,
                 required: false,
-                // through:{
-                //     where
-                // }
                 include: {
                     model: RepositoryLog,
                     where:{
@@ -78,7 +75,7 @@ async function generateData(){
                 }
             });
         });
-        const response = await Promise.all(allRepos.map(async (repository) => await getRepositoryInfo(repository.owner,repository.name, true)));
+        const response = await Promise.all(allRepos.map(async (repository) => await getRepositoryInfo(repository.owner,repository.name, false, true)));
         return response;
     } catch(err){
         console.error(err);

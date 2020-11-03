@@ -7,8 +7,9 @@ const getAllContributors = require('../services/getAllContributors');
 const RepositoryLog = require('../model/repositoryLog');
 const Issue = require('../model/issue');
 const Repository = require('../model/repository');
+const User = require('../model/user');
 
-async function saveRepositoryLog(repoLog, issuesResponse, contribsResponse, cron){
+async function saveRepositoryLog(repoLog, issuesResponse, contribsResponse, username, cron = false){
     try{
         const repository = (await Repository.findOrCreate({
             where:{
@@ -30,25 +31,31 @@ async function saveRepositoryLog(repoLog, issuesResponse, contribsResponse, cron
             }))
         }));
 
-        repositoryLog = await RepositoryLog.create(repoLog, {
+        const repositoryLog = await RepositoryLog.create(repoLog, {
             include: [{
                 association: RepositoryLog.Issues,
                 include: [Issue.Labels]
             }]
         });
         await repositoryLog.setRepository(repository);
+        if (username){
+            const user = (await User.findOrCreate({where:{
+                username
+            }}))[0];
+            await repositoryLog.setUser(user);
+        }
     } catch(err) {
         console.error(err);
     }
 }
 
-async function getRepositoryInfo(owner,repoName,cron=false) {
+async function getRepositoryInfo(owner,repoName,username=false,cron=false) {
     const query = owner + '/' + repoName;
     const response = (await searchRepositories(query));
     const repoLog = response.items[0];
     const issuesResponse = await getAllRepoIssues(repoLog.issues_url);
     const contribsResponse = await getAllContributors(repoLog.contributors_url);
-    saveRepositoryLog(repoLog,issuesResponse,contribsResponse, cron);
+    saveRepositoryLog(repoLog,issuesResponse,contribsResponse, username, cron);
 
     const openIssuesAge = issuesResponse.map((issue) => (Date.now() - new Date(issue.created_at)));
     return {
@@ -60,12 +67,12 @@ async function getRepositoryInfo(owner,repoName,cron=false) {
     };
 }
 
-async function searchRepositoryInfo(query) {
+async function searchRepositoryInfo(query, username) {
     const response = (await searchRepositories(query));
     const repoLog = response.items[0];
     const issuesResponse = await getAllRepoIssues(repoLog.issues_url);
     const contribsResponse = await getAllContributors(repoLog.contributors_url);
-    saveRepositoryLog(repoLog,issuesResponse,contribsResponse);
+    saveRepositoryLog(repoLog,issuesResponse,contribsResponse, username);
 
     const openIssuesAge = issuesResponse.map((issue) => (Date.now() - new Date(issue.created_at)));
     return {
