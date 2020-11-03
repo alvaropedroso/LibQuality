@@ -14,7 +14,7 @@ module.exports = async function getAllContributors(issues_url) {
     const allIssues = [];
     do{
         try{
-            const URL = `${issues_url.replace(/{.*}/,'')}?per_page=2&page=${pageNum}`
+            const URL = `${issues_url.replace(/{.*}/,'')}?per_page=100&page=${pageNum}`
             const response = await axios.get(URL);
             allIssues.push(...response.data);
             responseLength = response.data.length;

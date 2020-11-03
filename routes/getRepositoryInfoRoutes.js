@@ -9,7 +9,7 @@ route.get('/:query', async function(req, res) {
 });
 
 route.get('/:owner/:repo', async function(req, res) {
-  const response = await getReposioryInfo(req.params.repo + req.params.repo);
+  const response = await getReposioryInfo(req.params.owner + '/' + req.params.repo);
   console.log(response)
   res.send(response);
 });

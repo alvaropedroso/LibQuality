@@ -8,4 +8,9 @@ if(false){
     });
 }
 
+
+(async () => {
+    await sequelize.sync();
+})();
+
 module.exports = sequelize;

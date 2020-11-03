@@ -58,5 +58,5 @@ const express = require ('express');
 const app = express();
 app.listen(3000);
 app.use('/getRepoInfo', require('./routes/getRepositoryInfoRoutes'));
-app.use('/libStatistics', require('./routes/libraryStatisticsRoute'));
+app.use('/libStatistics', require('./routes/libraryStatisticsRoutes'));
  

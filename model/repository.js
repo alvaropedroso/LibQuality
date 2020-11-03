@@ -4,27 +4,15 @@ const Issue = require('./issue');
 
 class Repository extends Model {}
 Repository.init({
-    githubId: {
-        type: DataTypes.NUMBER,
+    owner: {
+        type: DataTypes.STRING,
         allowNull: false
     },
-    stars: {
-        type: DataTypes.NUMBER,
+    name: {
+        type: DataTypes.STRING,
         allowNull: false
-    },
-    forks: {
-        type: DataTypes.NUMBER,
-        allowNull: false
-    },
-    contributors: {
-        type: DataTypes.NUMBER
     }
 }, { sequelize, modelName: 'repository' });
 
-(async () => {
-    await sequelize.sync();
-})();
-
-Repository.Issues = Repository.hasMany(Issue);
 
 module.exports = Repository;

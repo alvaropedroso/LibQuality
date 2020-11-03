@@ -13,8 +13,4 @@ Label.init({
     }
 }, { sequelize, modelName: 'label' });
 
-(async () => {
-    await sequelize.sync();
-})();
-
 module.exports = Label;

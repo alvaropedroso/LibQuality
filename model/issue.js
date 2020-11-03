@@ -14,10 +14,6 @@ Issue.init({
     }
 }, { sequelize, modelName: 'issue' });
 
-(async () => {
-    await sequelize.sync();
-})();
-
 Issue.Labels = Issue.hasMany(Label);
 
 module.exports = Issue;

@@ -1,21 +1,21 @@
 const express = require('express');
 const route = express.Router();
-const getReposioryInfo = require('../business/getRepositoryInfo');
+const {deleteLib,getLibsInfo,saveNewLib} = require('../business/libStatistics');
 
 
 route.put('/:owner/:repo/:username', async function (req, res) {
-    const response = await saveNewLib(req.params.repo);
-    res.send(response.toString);
+    const response = await saveNewLib(req.params.owner, req.params.repo, req.params.username);
+    res.send(response);
 });
 
-route.delete('/:owner/:repo/:username', function (req, res) {
-    const response = await deleteLib(req.params.repo);
-    res.send('user ' + req.params.user);
+route.delete('/:owner/:repo/:username', async function (req, res) {
+    const response = await deleteLib(req.params.owner, req.params.repo, req.params.username);
+    res.send('response');
 });
 
 route.get('/:username', async function (req, res) {
-    const response = await getLibsInfo(req.params.repo);
-    res.send(response.toString);
+    const response = await getLibsInfo(req.params.username);
+    res.send(response);
 });
 
 module.exports = route;
