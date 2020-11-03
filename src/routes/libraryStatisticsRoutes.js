@@ -1,6 +1,6 @@
 const express = require('express');
 const route = express.Router();
-const {deleteLib,getLibsInfo,saveNewLib} = require('../business/libStatistics');
+const {deleteLib,getLibsInfo,saveNewLib, generateData} = require('../business/libStatistics');
 
 
 route.put('/:owner/:repo/:username', async function (req, res) {
@@ -13,7 +13,12 @@ route.delete('/:owner/:repo/:username', async function (req, res) {
     res.send('response');
 });
 
-route.get('/:username', async function (req, res) {
+route.get('/generateData', async function (req, res) {
+    const response = await generateData();
+    res.send(response);
+});
+
+route.get('/userLibs/:username', async function (req, res) {
     const response = await getLibsInfo(req.params.username);
     res.send(response);
 });

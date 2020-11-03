@@ -53,10 +53,18 @@
 
 const axios = require('axios');
 const math = require('mathjs');
-const db = require('./dbConnection');
+// const db = require('./dbConnection');
+const schedule = require('node-schedule');
 const express = require ('express');
+const { generateData } = require('./src/business/libStatistics');
+
 const app = express();
 app.listen(3000);
-app.use('/getRepoInfo', require('./routes/getRepositoryInfoRoutes'));
-app.use('/libStatistics', require('./routes/libraryStatisticsRoutes'));
+app.use('/getRepoInfo', require('./src/routes/getRepositoryInfoRoutes'));
+app.use('/libStatistics', require('./src/routes/libraryStatisticsRoutes'));
+
+schedule.scheduleJob({ rule: '0 0 8 * * *' }, () => {
+    generateData();
+});
+
  
