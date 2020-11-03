@@ -1,8 +1,8 @@
 const math = require('mathjs');
 //Services
-const searchRepositories = require('../services/searchRepositories');
-const getAllRepoIssues = require('../services/getAllRepoIssues');
-const getAllContributors = require('../services/getAllContributors');
+const searchRepositories = require('../requests/searchRepositories');
+const getAllRepoIssues = require('../requests/getAllRepoIssues');
+const getAllContributors = require('../requests/getAllContributors');
 //Model
 const RepositoryLog = require('../model/repositoryLog');
 const Issue = require('../model/issue');

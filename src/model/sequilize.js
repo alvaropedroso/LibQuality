@@ -1,8 +1,8 @@
 const { Sequelize } = require('sequelize');
-let sequelize = new Sequelize('sqlite::memory:');
+let sequelize;// = new Sequelize('sqlite::memory:');
 
-if(false){
-    sequelize = new Sequelize('libQualityDB', 'root', 'admin', {
+if (true) {
+    sequelize = new Sequelize('LibQualityDB', 'libQuality', 'libQualityPassword', {
         host: 'localhost',
         dialect: 'mysql'
     });
