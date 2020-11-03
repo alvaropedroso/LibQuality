@@ -1,13 +1,6 @@
 
 const axios = require('axios');
 
-
-function sleep(ms) {
-    return new Promise((resolve) => {
-      setTimeout(resolve, ms);
-    });
-  }   
-
 module.exports = async function getAllRepoIssues(issues_url) {
     let pageNum = 1;
     let responseLength;
@@ -22,7 +15,6 @@ module.exports = async function getAllRepoIssues(issues_url) {
             console.error(err);
         }
         pageNum++;
-        await sleep(1000)
     } while(responseLength === 100)
     return allIssues;
 }
