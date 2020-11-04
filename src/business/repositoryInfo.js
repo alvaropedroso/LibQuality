@@ -1,8 +1,9 @@
 const math = require('mathjs');
-//Services
+//Requests
 const searchRepositories = require('../requests/searchRepositories');
 const getAllRepoIssues = require('../requests/getAllRepoIssues');
 const getAllContributors = require('../requests/getAllContributors');
+const getRepository = require('../requests/getRepository');
 //Model
 const RepositoryLog = require('../model/repositoryLog');
 const Issue = require('../model/issue');
@@ -50,12 +51,11 @@ async function saveRepositoryLog(repoLog, issuesResponse, contribsResponse, user
 }
 
 async function getRepositoryInfo(owner,repoName,username=false,cron=false) {
-    const query = owner + '/' + repoName;
-    const response = (await searchRepositories(query));
-    const repoLog = response.items[0];
-    const issuesResponse = await getAllRepoIssues(repoLog.issues_url);
-    const contribsResponse = await getAllContributors(repoLog.contributors_url);
-    saveRepositoryLog(repoLog,issuesResponse,contribsResponse, username, cron);
+    const response = (await getRepository(owner,repoName));
+    const repoLog = response;
+    const issuesResponse = await getAllRepoIssues(owner,repoName);
+    const contribsResponse = await getAllContributors(owner,repoName);
+    await saveRepositoryLog(repoLog,issuesResponse,contribsResponse, username, cron);
 
     const openIssuesAge = issuesResponse.map((issue) => (Date.now() - new Date(issue.created_at)));
     return {
@@ -70,8 +70,8 @@ async function getRepositoryInfo(owner,repoName,username=false,cron=false) {
 async function searchRepositoryInfo(query, username) {
     const response = (await searchRepositories(query));
     const repoLog = response.items[0];
-    const issuesResponse = await getAllRepoIssues(repoLog.issues_url);
-    const contribsResponse = await getAllContributors(repoLog.contributors_url);
+    const issuesResponse = await getAllRepoIssues(repoLog.owner.login,repoLog.name);
+    const contribsResponse = await getAllContributors(repoLog.owner.login,repoLog.name);
     saveRepositoryLog(repoLog,issuesResponse,contribsResponse, username);
 
     const openIssuesAge = issuesResponse.map((issue) => (Date.now() - new Date(issue.created_at)));
