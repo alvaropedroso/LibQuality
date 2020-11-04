@@ -1,0 +1,23 @@
+version: "3.8"
+services:
+  web:
+    container_name: backend
+    build: .
+    ports:
+      - "3000:3000"
+    links:
+      - mysql
+  mysql:
+    container_name: mysql
+    image: mysql:5.7
+    ports:
+      - "3306:3306"
+    volumes:
+      - libQualityDB:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=admin
+      - MYSQL_DATABASE=LibQualityDB
+      - MYSQL_USER=libQuality
+      - MYSQL_PASSWORD=libQualityPassword
+volumes:
+  libQualityDB: {}
