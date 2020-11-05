@@ -12,7 +12,7 @@ module.exports = async function getAllRepoIssues(owner,repoName) {
             allIssues.push(...response.data);
             responseLength = response.data.length;
         } catch(err){
-            console.error(err);
+            throw new Error('Error getting repository data');
         }
         pageNum++;
     } while(responseLength === 100)

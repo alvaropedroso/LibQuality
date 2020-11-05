@@ -1,5 +1,4 @@
 const { Model, DataTypes } = require('sequelize');
-const Label = require('./labels');
 const sequelize = require('./sequilize');
 
 class Issue extends Model {}
@@ -13,7 +12,5 @@ Issue.init({
         allowNull: false
     }
 }, { sequelize, modelName: 'issue' });
-
-Issue.Labels = Issue.hasMany(Label);
 
 module.exports = Issue;

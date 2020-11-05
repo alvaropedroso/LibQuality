@@ -1,11 +1,20 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('./sequilize');
-const Issue = require('./issue');
-const User = require('./user');
-const Repository = require('./repository');
 
 class RepositoryLog extends Model {}
 RepositoryLog.init({
+    open_issues_count:{
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    avgAge: {
+        type: DataTypes.DOUBLE,
+        allowNull: false
+    },
+    stdAge: {
+        type: DataTypes.DOUBLE,
+        allowNull: false
+    },
     stars: {
         type: DataTypes.INTEGER,
         allowNull: false
@@ -26,11 +35,5 @@ RepositoryLog.init({
 (async () => {
     await sequelize.sync();
 })();
-
-RepositoryLog.Issues = RepositoryLog.hasMany(Issue);
-RepositoryLog.User = RepositoryLog.belongsTo(User);
-RepositoryLog.Repository = RepositoryLog.belongsTo(Repository);
-Repository.RepositoryLog = Repository.hasMany(RepositoryLog);
-
 
 module.exports = RepositoryLog;

@@ -56,15 +56,21 @@ const math = require('mathjs');
 // const db = require('./dbConnection');
 const schedule = require('node-schedule');
 const express = require ('express');
-const { generateData } = require('./src/business/libStatistics');
+const { startupDB } = require('./src/model/startModules');
 
-const app = express();
-app.listen(3000);
-app.use('/getRepoInfo', require('./src/routes/getRepositoryInfoRoutes'));
-app.use('/libStatistics', require('./src/routes/libraryStatisticsRoutes'));
 
-schedule.scheduleJob({ rule: '0 0 8 * * *' }, () => {
-    generateData();
-});
+
+(async()=>{
+    await startupDB();
+    const app = express();
+    app.listen(3000);
+    app.use('/getRepoInfo', require('./src/routes/getRepositoryInfoRoutes'));
+    app.use('/libStatistics', require('./src/routes/libraryStatisticsRoutes'));
+    
+    const { generateRepositoryStatisticsData } = require('./src/business/repositoryInfo');
+    schedule.scheduleJob({ rule: '0 0 8 * * *' }, () => {
+        generateRepositoryStatisticsData();
+    });
+})()
 
  

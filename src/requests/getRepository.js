@@ -7,6 +7,6 @@ module.exports = async function getRepository(owner,repoName) {
         const response = await axios.get(URL);
         return response.data;
     } catch(err){
-        console.error(err);
+        throw new Error('Error getting repository data');
     }
 }

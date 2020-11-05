@@ -1,6 +1,5 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('./sequilize');
-const Issue = require('./issue');
 
 class Repository extends Model {}
 Repository.init({
@@ -13,6 +12,5 @@ Repository.init({
         allowNull: false
     }
 }, { sequelize, modelName: 'repository' });
-
 
 module.exports = Repository;

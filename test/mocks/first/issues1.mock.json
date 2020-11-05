@@ -1,0 +1,115 @@
+[
+    {
+      "url": "https://api.github.com/repos/facebook/react/issues/20155",
+      "repository_url": "https://api.github.com/repos/facebook/react",
+      "labels_url": "https://api.github.com/repos/facebook/react/issues/20155/labels{/name}",
+      "comments_url": "https://api.github.com/repos/facebook/react/issues/20155/comments",
+      "events_url": "https://api.github.com/repos/facebook/react/issues/20155/events",
+      "html_url": "https://github.com/facebook/react/pull/20155",
+      "id": 735606439,
+      "node_id": "MDExOlB1bGxSZXF1ZXN0NTE0OTY4MjA4",
+      "number": 20155,
+      "title": "test: add tests to ReactFiberLane",
+      "user": {
+        "login": "oltrep",
+        "id": 34498770,
+        "node_id": "MDQ6VXNlcjM0NDk4Nzcw",
+        "avatar_url": "https://avatars0.githubusercontent.com/u/34498770?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/oltrep",
+        "html_url": "https://github.com/oltrep",
+        "followers_url": "https://api.github.com/users/oltrep/followers",
+        "following_url": "https://api.github.com/users/oltrep/following{/other_user}",
+        "gists_url": "https://api.github.com/users/oltrep/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/oltrep/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/oltrep/subscriptions",
+        "organizations_url": "https://api.github.com/users/oltrep/orgs",
+        "repos_url": "https://api.github.com/users/oltrep/repos",
+        "events_url": "https://api.github.com/users/oltrep/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/oltrep/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "labels": [
+        {
+          "id": 196858374,
+          "node_id": "MDU6TGFiZWwxOTY4NTgzNzQ=",
+          "url": "https://api.github.com/repos/facebook/react/labels/CLA%20Signed",
+          "name": "CLA Signed",
+          "color": "e7e7e7",
+          "default": false,
+          "description": null
+        }
+      ],
+      "state": "open",
+      "locked": false,
+      "assignee": null,
+      "assignees": [
+  
+      ],
+      "milestone": null,
+      "comments": 3,
+      "created_at": "2020-11-03T20:14:58Z",
+      "updated_at": "2020-11-03T23:29:13Z",
+      "closed_at": null,
+      "author_association": "CONTRIBUTOR",
+      "active_lock_reason": null,
+      "pull_request": {
+        "url": "https://api.github.com/repos/facebook/react/pulls/20155",
+        "html_url": "https://github.com/facebook/react/pull/20155",
+        "diff_url": "https://github.com/facebook/react/pull/20155.diff",
+        "patch_url": "https://github.com/facebook/react/pull/20155.patch"
+      },
+      "body": "## Summary\r\n\r\nThese changes add unit tests to ReactFiberLane. A test case discovered a potential issue with the function `higherPriorityLane`. If\r\nthe second argument is `NoLane`, it returns `NoLane` instead of returning the first given lane. \r\n\r\nIn summary, this expectation fail:\r\n\r\n```js\r\nexpect(higherPriorityLane(SyncLane, NoLane)).toEqual(SyncLane)\r\n```\r\n\r\nI made the changes to make that test pass.\r\n\r\n## Test Plan\r\n\r\nAll tests should pass.\r\n\r\n---\r\n\r\nI started with some of the smaller functions to get coverage on the building blocks, then I'll move to those with more behavior.",
+      "performed_via_github_app": null
+    },
+    {
+      "url": "https://api.github.com/repos/facebook/react/issues/20148",
+      "repository_url": "https://api.github.com/repos/facebook/react",
+      "labels_url": "https://api.github.com/repos/facebook/react/issues/20148/labels{/name}",
+      "comments_url": "https://api.github.com/repos/facebook/react/issues/20148/comments",
+      "events_url": "https://api.github.com/repos/facebook/react/issues/20148/events",
+      "html_url": "https://github.com/facebook/react/issues/20148",
+      "id": 734854335,
+      "node_id": "MDU6SXNzdWU3MzQ4NTQzMzU=",
+      "number": 20148,
+      "title": "Expose highWaterMark option on renderToNodeStream?",
+      "user": {
+        "login": "srijs",
+        "id": 2677165,
+        "node_id": "MDQ6VXNlcjI2NzcxNjU=",
+        "avatar_url": "https://avatars0.githubusercontent.com/u/2677165?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/srijs",
+        "html_url": "https://github.com/srijs",
+        "followers_url": "https://api.github.com/users/srijs/followers",
+        "following_url": "https://api.github.com/users/srijs/following{/other_user}",
+        "gists_url": "https://api.github.com/users/srijs/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/srijs/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/srijs/subscriptions",
+        "organizations_url": "https://api.github.com/users/srijs/orgs",
+        "repos_url": "https://api.github.com/users/srijs/repos",
+        "events_url": "https://api.github.com/users/srijs/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/srijs/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "labels": [
+  
+      ],
+      "state": "open",
+      "locked": false,
+      "assignee": null,
+      "assignees": [
+  
+      ],
+      "milestone": null,
+      "comments": 0,
+      "created_at": "2020-11-02T21:52:03Z",
+      "updated_at": "2020-11-02T21:52:03Z",
+      "closed_at": null,
+      "author_association": "NONE",
+      "active_lock_reason": null,
+      "body": "Hi!\r\n\r\nFor some of my use-cases, it would be really handy if the `highWaterMark` option for the node stream was configurable. This could help me to adjust the \"laziness\" of the partial renderer to give me the latency/throughput trade-off that is right for my app.\r\n\r\nWould you accept a patch to do this? Also, would you potentially consider back-porting to v16 and/or v17?\r\n\r\nThanks!",
+      "performed_via_github_app": null
+    }]

@@ -1,12 +1,6 @@
 const math = require('mathjs');
-//Services
 //Model
-const User = require('../model/user');
-const Repository = require('../model/repository');
-const UserRepository = require('../model/userRepository');
-const { getRepositoryInfo } = require('./repositoryInfo');
-const RepositoryLog = require('../model/repositoryLog');
-const Issue = require('../model/issue');
+const {Issue, Repository, RepositoryLog, User} = require('../model/startModules');
 
 
 async function saveNewLib(owner, repo, username){
@@ -62,29 +56,8 @@ async function getLibsInfo(username){
     }
 }
 
-async function generateData(){
-    try{
-        const users = await User.findAll({
-            include: Repository
-        });
-        const allRepos = [];
-        users.forEach((user)=>{
-            user.repositories.forEach((repository)=>{
-                if(allRepos.indexOf(repository) < 0 ){
-                    allRepos.push(repository);
-                }
-            });
-        });
-        const response = await Promise.all(allRepos.map(async (repository) => await getRepositoryInfo(repository.owner,repository.name, false, true)));
-        return response;
-    } catch(err){
-        console.error(err);
-    }
-}
-
 module.exports = {
     saveNewLib,
     deleteLib,
-    getLibsInfo,
-    generateData,
+    getLibsInfo
 };
