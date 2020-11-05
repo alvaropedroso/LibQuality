@@ -68,7 +68,6 @@ async function getRepositoryInfo(owner, repoName, username = false, cron = false
         contribsResponse = await getAllContributors(owner, repoName);
         console.log('got contributors');
     } catch (err) {
-        console.error(err);
         if (err.message === "Repository not found") {
             throw err;
         }

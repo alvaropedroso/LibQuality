@@ -25,38 +25,47 @@ async function deleteLib(owner, repo, username) {
             username
         }
     });
+    if (!user) {
+        throw new Error('User not found');
+    }
     const repository = await Repository.findOne({
         where: {
             owner: owner,
             name: repo
         }
     });
-    await user.removeRepository(repository);
-    return user;
+    if (!repository) {
+        throw new Error('Repository not found');
+    }
+    try {
+        await user.removeRepository(repository);
+        return user;
+    } catch (err) {
+        throw new Error('Error persisting data');
+    }
 }
 
 async function getLibsInfo(username) {
-    try {
-        const user = await User.findOne({
-            where: {
-                username: username,
-            },
-            include: [{
-                model: Repository,
-                required: false,
-                include: {
-                    model: RepositoryLog,
-                    where: {
-                        cron: true
-                    },
-                    required: false
-                }
-            }]
-        });
-        return user;
-    } catch (err) {
-        console.error(err)
+    const user = await User.findOne({
+        where: {
+            username: username,
+        },
+        include: [{
+            model: Repository,
+            required: false,
+            include: {
+                model: RepositoryLog,
+                where: {
+                    cron: true
+                },
+                required: false
+            }
+        }]
+    });
+    if(!user){
+        throw new Error("User not found")
     }
+    return user;
 }
 
 module.exports = {
