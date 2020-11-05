@@ -1,7 +1,4 @@
 module.exports = async function appSetup(){
-    const axios = require('axios');
-    const math = require('mathjs');
-    // const db = require('./dbConnection');
     const schedule = require('node-schedule');
     const express = require ('express');
     const { startupDB } = require('./src/model/startModules');

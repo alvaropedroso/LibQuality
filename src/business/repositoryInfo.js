@@ -73,6 +73,7 @@ async function getRepositoryInfo(owner, repoName, username = false, cron = false
     try {
         await saveRepositoryLog(repoLog, issuesResponse, contribsResponse, username, cron);
     } catch (err) {
+        console.error(err);
         throw new Error('Error persisting repository data');
     }
 
