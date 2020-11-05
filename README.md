@@ -62,7 +62,7 @@ In this project we have the following APIs exposed:
     
     Destroy the user relationship with the repository to stop receiving statistics from this repository 
 
-[GET] /libStatistics/:username
+[GET] /libStatistics/:username/userLibs
     
     Get all subscribed repositories statistics. This will only get the saved via a job that runs everyday and collect data for all the repositories that at least one user is subscribed
 
