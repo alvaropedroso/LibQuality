@@ -2,13 +2,15 @@ version: "3.8"
 services:
   web:
     container_name: backend
-    build: .
+    image: libquality:latest
     ports:
       - "3000:3000"
     links:
       - mysql
     env_file:
       - .env
+    environment:
+      - DB_HOST=mysql
   mysql:
     container_name: mysql
     image: mysql:5.7

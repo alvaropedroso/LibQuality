@@ -18,7 +18,7 @@ The Node controler will be structured in folders to keep code clean and organize
 Routes:
 
     Code in the Routes folder will be responsible to configure, receive data and respond the API.
-    this folder will connect to the service folder to collect information not related to 
+    This folder will connect to the service folder to collect information not related to 
     the API comunication
 Business:
 
@@ -48,7 +48,7 @@ In this project we have the following APIs exposed:
 
 [GET] /getRepoInfo/:username/:query
 
-    Search for a repository using the string passed on the query name and return the mostr relevant repository returned by github. This can be used when a user doesn't know the owner of a repository
+    Search for a repository using the string passed on the query name and return the most relevant repository returned by github. This can be used when a user doesn't know the owner of a repository
 
 [GET] /getRepoInfo/:username/:owner/:repoName
 
@@ -84,7 +84,7 @@ note: The database will startup using the .env variables. You can generate this 
 ## Testing/Production
 For theese environments the first thing that need to be done is generate the Dockerfile image with the command:
 
-    docker image build . -t libquality
+    docker image build . -t libquality:latest
 
 The docker-compose command will than use the most recent generated image and deploy the application and its database using:
 
