@@ -57,7 +57,7 @@ describe("getRepositoryInfo", () => {
     test("Get repository info happy path", async () => {
         mockFiles = "HappyPath";
         calls={};
-        const response = await axios.get('http://localhost:3000/getRepoInfo/testName/angular/angular');
+        const response = await axios.get('http://localhost:3000/getRepoInfo/testName/facebook/react');
         const { data } = response;
         expect(data).toHaveProperty('project');
         expect(data).toHaveProperty('owner');
@@ -70,7 +70,7 @@ describe("getRepositoryInfo", () => {
         mockFiles = 'RepositoryNotFound';
         calls={};
         try {
-            await axios.get('http://localhost:3000/getRepoInfo/testName/angular/angular');
+            await axios.get('http://localhost:3000/getRepoInfo/testName/facebook/react');
             expect(true).toBe(false);
         } catch (err) {
             expect(err.response.status).toBe(404);
@@ -82,7 +82,7 @@ describe("getRepositoryInfo", () => {
         mockFiles = 'Repository call error';
         calls={};
         try {
-            await axios.get('http://localhost:3000/getRepoInfo/testName/angular/angular');
+            await axios.get('http://localhost:3000/getRepoInfo/testName/facebook/react');
             expect(true).toBe(false);
         } catch (err) {
             expect(err.response.status).toBe(500);
@@ -91,9 +91,22 @@ describe("getRepositoryInfo", () => {
     });
 
     test("GET More than 100 issues", async () => {
-        mockFiles = 'moreThan100';
+        mockFiles = 'MoreThan100';
         calls={};
-        const response = await axios.get('http://localhost:3000/getRepoInfo/testName/angular/angular');
+        const response = await axios.get('http://localhost:3000/getRepoInfo/testName/facebook/react');
+        const { data } = response;
+        expect(data).toHaveProperty('project');
+        expect(data).toHaveProperty('owner');
+        expect(data).toHaveProperty('openIssues');
+        expect(data).toHaveProperty('avgAge');
+        expect(data).toHaveProperty('stdAge');
+
+    });
+
+    test("GET zero issues", async () => {
+        mockFiles = 'ZeroIssues';
+        calls={};
+        const response = await axios.get('http://localhost:3000/getRepoInfo/testName/facebook/react');
         const { data } = response;
         expect(data).toHaveProperty('project');
         expect(data).toHaveProperty('owner');
@@ -130,6 +143,46 @@ describe("getRepositoryInfo", () => {
 
 
 describe("Library statistics", () => {
+    test("get User not found", async () => {
+        calls={};
+        //getting user libs
+        try{
+            await axios.get('http://localhost:3000/libStatistics/nonexistingUser/userLibs');
+            expect(true).toBe(false);
+        } catch (err) {
+            expect(err.response.status).toBe(404);
+            expect(err.response.data).toBe('User not found');
+        }
+    })
+
+    test("DELETE User not found", async () => {
+        calls={};
+        //getting user libs
+        try{
+            await axios.delete('http://localhost:3000/libStatistics/nonexistingUser/facebook/react');
+            expect(true).toBe(false);
+        } catch (err) {
+            expect(err.response.status).toBe(404);
+            expect(err.response.data).toBe('User not found');
+        }
+    })
+
+    test("DELETE Repository not found", async () => {
+        calls={};
+        //getting user libs
+        try{
+            //calling this put and delete  just to create the user on the database
+            await axios.put('http://localhost:3000/libStatistics/existing/facebook/react');
+            await axios.delete('http://localhost:3000/libStatistics/existing/facebook/react');
+
+            response = await axios.delete('http://localhost:3000/libStatistics/existing/nonexistingOwner/nonexistingRepository');
+            expect(true).toBe(false);
+        } catch (err) {
+            expect(err.response.status).toBe(404);
+            expect(err.response.data).toBe('Repository not found');
+        }
+    })
+
     test("Lib statistics integration tests", async () => {
         mockFiles = "HappyPath";
         calls={};
@@ -175,7 +228,7 @@ describe("Library statistics", () => {
         //adding lib back to user
         await axios.put('http://localhost:3000/libStatistics/testName/facebook/react');
 
-        mockFiles = "moreThan100";
+        mockFiles = "MoreThan100";
         calls={};
         //using again endpoint created for tests to simulate cron execution
         await axios.get('http://localhost:3000/libStatistics/generateData');
