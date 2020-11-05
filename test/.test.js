@@ -200,63 +200,63 @@ describe("Library statistics", () => {
         await axios.delete('http://localhost:3000/libStatistics/testName/facebook/react');
     })
 
-    // test("multiple repositories", async () => {
-    //     mockFiles = "HappyPath";
-    //     calls={};
-    //     //adding libs to user
-    //     await axios.put('http://localhost:3000/libStatistics/testName/facebook/react');
-    //     await axios.put('http://localhost:3000/libStatistics/testName/angular/angular');
+    test("multiple repositories", async () => {
+        mockFiles = "HappyPath";
+        calls={};
+        //adding libs to user
+        await axios.put('http://localhost:3000/libStatistics/testName/facebook/react');
+        await axios.put('http://localhost:3000/libStatistics/testName/angular/angular');
 
-    //     //getting user libs
-    //     let response = await axios.get('http://localhost:3000/libStatistics/testName/userLibs');
-    //     let { data } = response;
-    //     expect(data).toHaveProperty('username');
-    //     expect(data).toHaveProperty('repositories');
-    //     expect(data.repositories).toHaveLength(2);
-    //     expect(data.repositories[0]).toHaveProperty('owner');
-    //     expect(data.repositories[0].owner).toBe('facebook');
-    //     expect(data.repositories[0]).toHaveProperty('name');
-    //     expect(data.repositories[0].name).toBe('react');
-    //     let repo0logLength =  data.repositories[0].repositoryLogs.length;
-    //     console.log('repo0logLength',repo0logLength);
-    //     expect(data.repositories[1]).toHaveProperty('owner');
-    //     expect(data.repositories[1].owner).toBe('angular');
-    //     expect(data.repositories[1]).toHaveProperty('name');
-    //     expect(data.repositories[1].name).toBe('angular');
-    //     let repo1logLength =  data.repositories[1].repositoryLogs.length;
-    //     console.log('repo1logLength',repo1logLength);
+        //getting user libs
+        let response = await axios.get('http://localhost:3000/libStatistics/testName/userLibs');
+        let { data } = response;
+        expect(data).toHaveProperty('username');
+        expect(data).toHaveProperty('repositories');
+        expect(data.repositories).toHaveLength(2);
+        expect(data.repositories[0]).toHaveProperty('owner');
+        expect(data.repositories[0].owner).toBe('facebook');
+        expect(data.repositories[0]).toHaveProperty('name');
+        expect(data.repositories[0].name).toBe('react');
+        let repo0logLength =  data.repositories[0].repositoryLogs.length;
+        console.log('repo0logLength',repo0logLength);
+        expect(data.repositories[1]).toHaveProperty('owner');
+        expect(data.repositories[1].owner).toBe('angular');
+        expect(data.repositories[1]).toHaveProperty('name');
+        expect(data.repositories[1].name).toBe('angular');
+        let repo1logLength =  data.repositories[1].repositoryLogs.length;
+        console.log('repo1logLength',repo1logLength);
 
-    //     //endpoint created for tests to simulate cron execution
-    //     await axios.get('http://localhost:3000/libStatistics/generateData');
+        //endpoint created for tests to simulate cron execution
+        await axios.get('http://localhost:3000/libStatistics/generateData');
 
-    //     //getting user libs
-    //     response = await axios.get('http://localhost:3000/libStatistics/testName/userLibs');
-    //     data = response.data;
-    //     expect(data).toHaveProperty('username');
-    //     expect(data).toHaveProperty('repositories');
-    //     expect(data.repositories).toHaveLength(2);
-    //     expect(data.repositories[0]).toHaveProperty('owner');
-    //     expect(data.repositories[0]).toHaveProperty('name');
-    //     expect(data.repositories[0].repositoryLogs).toHaveLength(repo0logLength+1);
-    //     expect(data.repositories[0].repositoryLogs[repo0logLength]).toHaveProperty('open_issues_count');
-    //     expect(data.repositories[0].repositoryLogs[repo0logLength]).toHaveProperty('avgAge');
-    //     expect(data.repositories[0].repositoryLogs[repo0logLength]).toHaveProperty('stdAge');
-    //     expect(data.repositories[1]).toHaveProperty('owner');
-    //     expect(data.repositories[1]).toHaveProperty('name');
-    //     expect(data.repositories[1].repositoryLogs).toHaveLength(repo1logLength+1);
-    //     expect(data.repositories[1].repositoryLogs[repo1logLength]).toHaveProperty('open_issues_count');
-    //     expect(data.repositories[1].repositoryLogs[repo1logLength]).toHaveProperty('avgAge');
-    //     expect(data.repositories[1].repositoryLogs[repo1logLength]).toHaveProperty('stdAge');
+        //getting user libs
+        response = await axios.get('http://localhost:3000/libStatistics/testName/userLibs');
+        data = response.data;
+        expect(data).toHaveProperty('username');
+        expect(data).toHaveProperty('repositories');
+        expect(data.repositories).toHaveLength(2);
+        expect(data.repositories[0]).toHaveProperty('owner');
+        expect(data.repositories[0]).toHaveProperty('name');
+        expect(data.repositories[0].repositoryLogs).toHaveLength(repo0logLength+1);
+        expect(data.repositories[0].repositoryLogs[repo0logLength]).toHaveProperty('open_issues_count');
+        expect(data.repositories[0].repositoryLogs[repo0logLength]).toHaveProperty('avgAge');
+        expect(data.repositories[0].repositoryLogs[repo0logLength]).toHaveProperty('stdAge');
+        expect(data.repositories[1]).toHaveProperty('owner');
+        expect(data.repositories[1]).toHaveProperty('name');
+        expect(data.repositories[1].repositoryLogs).toHaveLength(repo1logLength+1);
+        expect(data.repositories[1].repositoryLogs[repo1logLength]).toHaveProperty('open_issues_count');
+        expect(data.repositories[1].repositoryLogs[repo1logLength]).toHaveProperty('avgAge');
+        expect(data.repositories[1].repositoryLogs[repo1logLength]).toHaveProperty('stdAge');
 
-    //     //adding lib to user
-    //     await axios.delete('http://localhost:3000/libStatistics/testName/facebook/react');
-    //     await axios.delete('http://localhost:3000/libStatistics/testName/angular/angular');
+        //adding lib to user
+        await axios.delete('http://localhost:3000/libStatistics/testName/facebook/react');
+        await axios.delete('http://localhost:3000/libStatistics/testName/angular/angular');
 
-    //     //getting user libs
-    //     response = await axios.get('http://localhost:3000/libStatistics/testName/userLibs');
-    //     data = response.data;
-    //     expect(data).toHaveProperty('username');
-    //     expect(data).toHaveProperty('repositories');
-    //     expect(data.repositories).toHaveLength(0);
-    // })
+        //getting user libs
+        response = await axios.get('http://localhost:3000/libStatistics/testName/userLibs');
+        data = response.data;
+        expect(data).toHaveProperty('username');
+        expect(data).toHaveProperty('repositories');
+        expect(data.repositories).toHaveLength(0);
+    })
 });
