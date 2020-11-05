@@ -1,5 +1,7 @@
 // LibQuality will collect metrics from GitHub projects and make them available in a consolidated dashboard. End users can query by Project name (like “React”) then they will see a #issues, average, and standard deviation time.
 
+const appSetup = require("./appSetup")
+
 // Phase 1
 
 // Product Owner wants to know how many issues are currently opened for a given GitHub project and how long the issues are opened. Basically, the bottom table in the wireframe. 
@@ -51,26 +53,10 @@
 
 
 
-const axios = require('axios');
-const math = require('mathjs');
-// const db = require('./dbConnection');
-const schedule = require('node-schedule');
-const express = require ('express');
-const { startupDB } = require('./src/model/startModules');
-
 
 
 (async()=>{
-    await startupDB();
-    const app = express();
-    app.listen(3000);
-    app.use('/getRepoInfo', require('./src/routes/getRepositoryInfoRoutes'));
-    app.use('/libStatistics', require('./src/routes/libraryStatisticsRoutes'));
-    
-    const { generateRepositoryStatisticsData } = require('./src/business/repositoryInfo');
-    schedule.scheduleJob({ rule: '0 0 8 * * *' }, () => {
-        generateRepositoryStatisticsData();
-    });
+    await appSetup()
 })()
 
  

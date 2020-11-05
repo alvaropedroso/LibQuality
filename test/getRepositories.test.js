@@ -4,17 +4,17 @@
 
 const MockAdapter = require("axios-mock-adapter");
 const axios = require('axios');
-const { map } = require("mathjs");
 const fs = require('fs');
 const path = require('path');
+const appSetup = require("../appSetup");
 var mock = new MockAdapter(axios, { onNoMatch: "passthrough" });
 
 const mockUrl = /^https:\/\/api\.github\.com\/*/;
 const regexMap = [
-    { request: 'Issue', regex: /^https:\/\/api\.github\.com\/repos\/(\w+)\/(\w+)\/issues.*$/ },
-    { request: 'Contributors', regex: /^https:\/\/api\.github\.com\/repos\/(\w+)\/(\w+)\/contributors.*$/ },
-    { request: 'Repository', regex: /^https:\/\/api\.github\.com\/repos\/(\w+)\/(\w+)$/ },
-    { request: 'Search', regex: /^https:\/\/api\.github\.com\/search\/repositories.*/ },
+    { request: 'issues', regex: /^https:\/\/api\.github\.com\/repos\/(\w+)\/(\w+)\/issues.*$/ },
+    { request: 'contributors', regex: /^https:\/\/api\.github\.com\/repos\/(\w+)\/(\w+)\/contributors.*$/ },
+    { request: 'repository', regex: /^https:\/\/api\.github\.com\/repos\/(\w+)\/(\w+)$/ },
+    { request: 'searchRepo', regex: /^https:\/\/api\.github\.com\/search\/repositories.*/ },
 ];
 
 function checkRequestType(URL) {
@@ -24,65 +24,31 @@ function checkRequestType(URL) {
     return match;
 }
 
-function sleep(ms) {
-    return new Promise((resolve) => {
-        setTimeout(resolve, ms);
-    });
-}
-
 beforeAll(async () => {
-    // const {startupDB} =  require('../src/model/startModules.js');
-    // await startupDB();
     jest.setTimeout(20000);
-    require('../index');
-    await sleep(2000);
+    await appSetup();
 
 })
 
-let mockName, calls={};
+let mockFiles, calls={};
+
+function getMockFromFile(type){
+    if(!calls[type.request]){
+        calls[type.request] = 1;
+    }
+    console.log("pathhhhhhhh:",path.resolve(__dirname, `./mocks/${mockFiles}/${type.request}${calls[type.request]}.mock.json`));
+    data = JSON.parse(fs.readFileSync(path.resolve(__dirname, `./mocks/${mockFiles}/${type.request}${calls[type.request]}.mock.json`)));
+    calls[type.request]++;
+    return data;
+}
 
 mock.onAny(mockUrl).reply((config) => {
     const type = checkRequestType(config.url);
     let data = {}, status = 200;
-    if (mockName === 'Get repository info happy path') {
-        if (type.request === 'Issue') {
-            data = JSON.parse(fs.readFileSync(path.resolve(__dirname, './mocks/first/issues1.mock.json')));
-        } else if (type.request === 'Contributors') {
-            data = JSON.parse(fs.readFileSync(path.resolve(__dirname, './mocks/first/contributors1.mock.json')));
-        } else if (type.request === 'Repository') {
-            data = JSON.parse(fs.readFileSync(path.resolve(__dirname, './mocks/first/repository1.mock.json')));
-        } else {
-            status = 500;
-        }
-    } else if (mockName === 'Repository Not Found') {
-        if (type.request === 'Repository') {
-            data = {
-                "message": 'Not Found'
-            };
-        } else if (type.request === 'Search') {
-            data = {
-                "total_count": 0,
-                "incomplete_results": false,
-                "items": [
-                ]
-            }
-        }
-    } else if (mockName === 'Repository call error') {
-        status = 500
-    } else if (mockName === 'Repository More than 100 issues') {
-        if (type.request === 'Issue') {
-            if(!calls.issue){
-                calls.issue = 1;
-            }
-            data = JSON.parse(fs.readFileSync(path.resolve(__dirname, `./mocks/moreThan100/issues${calls.issue}.mock.json`)));
-            calls.issue++;
-        } else if (type.request === 'Contributors') {
-            data = JSON.parse(fs.readFileSync(path.resolve(__dirname, './mocks/moreThan100/contributors1.mock.json')));
-        } else if (type.request === 'Repository') {
-            data = JSON.parse(fs.readFileSync(path.resolve(__dirname, './mocks/moreThan100/repository1.mock.json')));
-        } else {
-            status = 500;
-        }
+    if (mockFiles === 'Repository call error') {
+        status = 500;
+    } else {
+        data = getMockFromFile(type);
     }
 
     return [status, data];
@@ -91,7 +57,7 @@ mock.onAny(mockUrl).reply((config) => {
 
 describe("getRepositoryInfo", () => {
     test("Get repository info happy path", async () => {
-        mockName = "Get repository info happy path";
+        mockFiles = "HappyPath";
         calls={};
         const response = await axios.get('http://localhost:3000/getRepoInfo/testName/angular/angular');
         const { data } = response;
@@ -103,7 +69,7 @@ describe("getRepositoryInfo", () => {
     });
 
     test("GET Repository Not Found", async () => {
-        mockName = 'Repository Not Found';
+        mockFiles = 'RepositoryNotFound';
         calls={};
         try {
             await axios.get('http://localhost:3000/getRepoInfo/testName/angular/angular');
@@ -115,7 +81,7 @@ describe("getRepositoryInfo", () => {
     });
 
     test("GET Repository call error", async () => {
-        mockName = 'Repository call error';
+        mockFiles = 'Repository call error';
         calls={};
         try {
             await axios.get('http://localhost:3000/getRepoInfo/testName/angular/angular');
@@ -127,7 +93,7 @@ describe("getRepositoryInfo", () => {
     });
 
     test("GET More than 100 issues", async () => {
-        mockName = 'Repository More than 100 issues';
+        mockFiles = 'moreThan100';
         calls={};
         const response = await axios.get('http://localhost:3000/getRepoInfo/testName/angular/angular');
         const { data } = response;
@@ -140,7 +106,7 @@ describe("getRepositoryInfo", () => {
     });
 
     test("Search Repository Not Found", async () => {
-        mockName = 'Repository Not Found';
+        mockFiles = 'RepositoryNotFound';
         calls={};
         try {
             await axios.get('http://localhost:3000/getRepoInfo/testName/angular');
@@ -152,7 +118,7 @@ describe("getRepositoryInfo", () => {
     });
 
     test("Search Repository call error", async () => {
-        mockName = 'Repository call error';
+        mockFiles = 'Repository call error';
         calls={};
         try {
             await axios.get('http://localhost:3000/getRepoInfo/testName/angular/angular');

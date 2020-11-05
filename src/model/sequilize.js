@@ -8,9 +8,6 @@ if (process.env.MYSQL_DATABASE && process.env.MYSQL_USER && process.env.MYSQL_PA
         dialect: 'mysql'
     });
 } else {
-    console.log(process.env.MYSQL_DATABASE)
-    console.log(process.env.MYSQL_USER)
-    console.log(process.env.MYSQL_PASSWORD)
     console.log('Connecting to memory')
     sequelize = new Sequelize('sqlite::memory:');
 }
