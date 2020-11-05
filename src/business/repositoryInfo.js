@@ -56,14 +56,19 @@ async function getRepositoryInfo(owner, repoName, username = false, cron = false
     let issuesResponse;
     let contribsResponse;
     try {
+        console.log('starting getRepositoryInfo');
         response = (await getRepository(owner, repoName));
         if (response.message === "Not Found") {
             throw new Error('Repository not found');
         }
+        console.log('got repository');
         repoLog = response;
         issuesResponse = await getAllRepoIssues(owner, repoName);
+        console.log('got issues');
         contribsResponse = await getAllContributors(owner, repoName);
+        console.log('got contributors');
     } catch (err) {
+        console.error(err);
         if (err.message === "Repository not found") {
             throw err;
         }

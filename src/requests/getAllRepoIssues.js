@@ -7,8 +7,8 @@ module.exports = async function getAllRepoIssues(owner,repoName) {
     const allIssues = [];
     do{
         try{
-            const URL = `https://api.github.com/repos/${owner}/${repoName}/issues?state=open&per_page=100&page=${pageNum}`
-            const response = await axios.get(URL);
+            const URL = `https://api.github.com/repos/${owner}/${repoName}/issues?state=open&per_page=2&page=${pageNum}`
+            const response = await axios.get(URL,{auth:{username: process.env.GITHUB_USER,password: process.env.GITHUB_TOKEN}});
             allIssues.push(...response.data);
             responseLength = response.data.length;
         } catch(err){

@@ -8,11 +8,13 @@ if (process.env.MYSQL_DATABASE && process.env.MYSQL_USER && process.env.MYSQL_PA
         dialect: 'mysql',
         logging: false
     });
+    console.log('Connected to mysqlDB')
 } else {
     console.log('Connecting to memory')
     sequelize = new Sequelize('sqlite::memory:', {
         logging: false
     });
+    console.log('Connected to memory')
 }
 
 module.exports = sequelize;
