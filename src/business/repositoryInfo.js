@@ -28,10 +28,14 @@ async function saveRepositoryLog(repoLog, issuesResponse, contribsResponse, user
         }))
     }));
 
-    const openIssuesAge = issuesResponse.map((issue) => (Date.now() - new Date(issue.created_at)));
     repoLog.openIssues = repoLog.open_issues_count;
-    repoLog.avgAge = Math.floor(math.mean(openIssuesAge) / 1000 / 86400);
-    repoLog.stdAge = Math.floor(math.std(openIssuesAge) / 1000 / 86400);
+    repoLog.avgAge = 0;
+    repoLog.stdAge = 0;
+    if(repoLog.openIssues > 0){
+        const openIssuesAge = issuesResponse.map((issue) => (Date.now() - new Date(issue.created_at)));
+        repoLog.avgAge = Math.floor(math.mean(openIssuesAge) / 1000 / 86400);
+        repoLog.stdAge = Math.floor(math.std(openIssuesAge) / 1000 / 86400);
+    }
 
     const repositoryLog = await RepositoryLog.create(repoLog, {
         include: [{
@@ -145,8 +149,10 @@ async function generateRepositoryStatisticsData() {
                 }
             });
         });
-        const response = await Promise.all(allRepos.map(async (repository) => await getRepositoryInfo(repository.owner, repository.name, false, true)));
-        return response;
+        for(repository of allRepos){
+            await getRepositoryInfo(repository.owner, repository.name, false, true)
+        }
+        return {'success':true};
     } catch (err) {
         console.error(err);
     }

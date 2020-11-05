@@ -9,11 +9,11 @@ RepositoryLog.init({
     },
     avgAge: {
         type: DataTypes.DOUBLE,
-        allowNull: false
+        defaultValue: 0
     },
     stdAge: {
         type: DataTypes.DOUBLE,
-        allowNull: false
+        defaultValue: 0
     },
     stars: {
         type: DataTypes.INTEGER,
